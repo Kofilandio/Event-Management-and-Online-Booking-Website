@@ -12,7 +12,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:reset": "prisma migrate reset --force",
-    "test:recommender": "tsx src/services/recommender/__test.ts"
+    "test:recommender": "tsx src/services/recommender/__test.ts",
+    "eval:recommender": "tsx src/services/recommender/eval-dataset.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

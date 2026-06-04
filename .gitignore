@@ -14,3 +14,9 @@ uploads/
 .idea/
 .vscode/
 prisma/migrations/dev.db*
+
+# Large recommendation dataset (provided on e-class — do not commit, ~1.5GB)
+rel_event_csvs/
+
+# Local frontend backup snapshot
+frontend-backup/

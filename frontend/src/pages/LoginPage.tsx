@@ -26,22 +26,51 @@ export function LoginPage() {
   }
 
   return (
-    <div className="container narrow">
-      <div className="card">
-        <h2>Σύνδεση</h2>
-        <form onSubmit={submit}>
-          <label>Username</label>
-          <input value={username} onChange={(e) => setUsername(e.target.value)} required />
-          <div style={{ height: 8 }} />
-          <label>Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+    <div className="auth-split">
+      <aside className="auth-poster">
+        <div className="stamp">Διαχείριση Εκδηλώσεων</div>
+        <h2 className="display">
+          Καλώς ήρθες <em>ξανά</em>.
+        </h2>
+        <div className="footnote">
+          Συνδέσου για να διαχειριστείς τις εκδηλώσεις και τις κρατήσεις σου.
+        </div>
+      </aside>
+
+      <div className="auth-form-pane">
+        <form className="auth-form" onSubmit={submit}>
+          <div className="eyebrow">Σύνδεση</div>
+          <h1>Σύνδεση στον λογαριασμό σου</h1>
+
+          <div className="field">
+            <label>Username</label>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoFocus
+              required
+            />
+          </div>
+          <div className="field">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
           {error && <div className="error">{error}</div>}
-          <div style={{ height: 12 }} />
-          <button type="submit" disabled={busy}>{busy ? 'Σύνδεση…' : 'Σύνδεση'}</button>
+
+          <button type="submit" disabled={busy}>
+            {busy ? 'Σύνδεση…' : 'Σύνδεση'}
+          </button>
+
+          <p className="muted" style={{ marginTop: '1.5rem' }}>
+            Δεν έχετε λογαριασμό; <Link to="/register">Εγγραφή</Link>
+          </p>
         </form>
-        <p className="muted" style={{ marginTop: '1rem' }}>
-          Δεν έχετε λογαριασμό; <Link to="/register">Εγγραφή</Link>
-        </p>
       </div>
     </div>
   );

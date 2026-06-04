@@ -58,6 +58,7 @@ Open <http://localhost:5173> and log in with one of the seed accounts below.
 | `npm run db:seed` | Re-seed (without wiping) |
 | `npm run train` | Retrain the BMF recommender on current data |
 | `npm run test:recommender` | Run the synthetic-dataset sanity test for the recommender |
+| `npm run eval:recommender` | Train & evaluate the BMF on the provided dataset (RMSE + ranking) |
 
 ## Default Accounts (after seed)
 
@@ -136,6 +137,27 @@ A sanity test using a synthetic dataset is included:
 cd backend && npx tsx src/services/recommender/__test.ts
 ```
 This verifies that training reduces RMSE and that top-N recommendations align with the latent tastes of synthetic users.
+
+### Evaluation on the provided dataset
+
+The assignment ships a dataset (`rel_event_csvs/`) for the recommender. The
+`eval:recommender` script trains the **same** from-scratch BMF on the real
+`event_interest.csv` interactions and reports held-out quality:
+
+```bash
+cd backend && npm run eval:recommender
+# custom path / k-core thresholds:
+# npm run eval:recommender -- ../rel_event_csvs/event_interest.csv 5 5
+```
+
+- **Pseudo-ratings** mirror the live app: `interested → 5.0`, `shown/invited → 2.0`, `not_interested → 1.0`.
+- **k-core filtering** (default ≥5 interactions per user and per event) prunes the extremely sparse raw matrix (~0.09% dense) to an evaluable core (~6% dense). Override the thresholds via CLI args.
+- **Split:** deterministic 80/20; test RMSE is measured only on (user, event) pairs the model has actually seen.
+- **Metrics:** per-epoch training RMSE, held-out test RMSE, and ranking quality (HitRate@K / Precision@K / Recall@K).
+
+Representative run (k-core 5/5): 367 users × 92 events, train RMSE 1.36 → 0.95,
+test RMSE ≈ 1.22, **HitRate@10 ≈ 0.35**, Recall@10 ≈ 0.33 — i.e. for ~1 in 3
+users a genuinely interesting event lands in the top-10.
 
 ## Project Structure
 

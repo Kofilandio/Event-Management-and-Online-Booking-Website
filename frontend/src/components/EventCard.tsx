@@ -7,31 +7,51 @@ export function EventCard({ event }: { event: Event }) {
     : 0;
   const totalAvailable = event.ticketTypes.reduce((acc, t) => acc + t.available, 0);
   const coverPhoto = event.photos[0];
+  const start = new Date(event.startDateTime);
+
+  const dateLabel = start.toLocaleDateString('el-GR', {
+    day: '2-digit', month: 'short', year: 'numeric',
+  });
+  const timeLabel = start.toLocaleTimeString('el-GR', {
+    hour: '2-digit', minute: '2-digit',
+  });
 
   return (
-    <Link to={`/events/${event.id}`} className="card event-card" style={{ color: 'inherit' }}>
+    <Link to={`/events/${event.id}`} className="event-card">
       {coverPhoto ? (
         <img className="cover" src={`/uploads/${coverPhoto.filename}`} alt={event.title} />
       ) : (
-        <div className="cover" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>
-          (no photo)
+        <div className="cover" style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'var(--ink-faded)', fontSize: '0.85rem',
+        }}>
+          Χωρίς φωτογραφία
         </div>
       )}
       <h3>{event.title}</h3>
-      <div className="muted">
-        {new Date(event.startDateTime).toLocaleString()}<br />
+      <div className="meta">
+        {dateLabel} · {timeLabel}<br />
         {event.venue}, {event.city}
       </div>
-      <div style={{ marginTop: '0.5rem' }}>
-        {event.categories.map((c) => <span key={c.id} className="tag">{c.name}</span>)}
-      </div>
-      <div style={{ marginTop: 'auto', paddingTop: '0.75rem' }}>
+      <div className="cats">
+        {event.categories.slice(0, 2).map((c) => <span key={c.id} className="tag">{c.name}</span>)}
         <span className={`tag status-${event.status}`}>{event.status}</span>
-        {event.status === 'PUBLISHED' && (
-          <span style={{ float: 'right', fontWeight: 600 }}>
-            from {minPrice.toFixed(2)}€
-            {totalAvailable === 0 && <span style={{ marginLeft: '0.5rem', color: 'var(--danger)' }}>sold out</span>}
+      </div>
+      <div className="stub">
+        {event.status === 'PUBLISHED' ? (
+          <span className="price">
+            <small>από</small>{minPrice.toFixed(2)}€
           </span>
+        ) : (
+          <span className="price" style={{ color: 'var(--ink-faded)' }}>
+            <small>{event.status}</small>
+          </span>
+        )}
+        {event.status === 'PUBLISHED' && totalAvailable === 0 && (
+          <span className="sold-out">Εξαντλήθηκε</span>
+        )}
+        {event.status === 'PUBLISHED' && totalAvailable > 0 && (
+          <span className="avail">{totalAvailable} διαθέσιμα</span>
         )}
       </div>
     </Link>

@@ -15,19 +15,30 @@ export function HomePage() {
 
   return (
     <div className="container">
-      <h2>Καλώς ήρθατε, {user?.firstName}</h2>
+      <div className="page-head">
+        <div>
+          <h1>Καλώς ήρθατε, {user?.firstName}.</h1>
+        </div>
+        <div className="muted">
+          {new Date().toLocaleDateString('el-GR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
+        </div>
+      </div>
+
       <div className="grid two">
-        <Link to="/my-events" className="card" style={{ color: 'inherit' }}>
-          <h3>Διαχείριση Εκδηλώσεων</h3>
-          <p className="muted">Δημιουργήστε, επεξεργαστείτε, ή ακυρώστε τις εκδηλώσεις σας. Δείτε τις κρατήσεις που έχουν γίνει.</p>
+        <Link to="/my-events" className="card">
+          <h3 style={{ marginTop: 0 }}>Διαχείριση εκδηλώσεων</h3>
+          <p className="muted">Δημιουργήστε, επεξεργαστείτε ή ακυρώστε τις εκδηλώσεις σας και δείτε τις κρατήσεις που έχουν γίνει.</p>
         </Link>
-        <Link to="/events" className="card" style={{ color: 'inherit' }}>
-          <h3>Πλοήγηση / Αναζήτηση</h3>
+        <Link to="/events" className="card">
+          <h3 style={{ marginTop: 0 }}>Πλοήγηση & αναζήτηση</h3>
           <p className="muted">Ανακαλύψτε εκδηλώσεις από άλλους διοργανωτές και κάντε κράτηση.</p>
         </Link>
       </div>
 
-      <h3 style={{ marginTop: '2rem' }}>Προτεινόμενες εκδηλώσεις για εσάς</h3>
+      <div className="section-rule">
+        <span className="label">Προτεινόμενα για εσάς</span>
+      </div>
+
       {recs === null && <p className="muted">Φορτώνονται…</p>}
       {recs && recs.length === 0 && (
         <p className="muted">

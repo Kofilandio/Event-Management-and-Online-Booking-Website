@@ -18,7 +18,8 @@
     "start": "npm run db:up && npm run db:wait && npm run dev",
     "build": "npm --prefix backend run build && npm --prefix frontend run build",
     "train": "npm --prefix backend run train",
-    "test:recommender": "npm --prefix backend run test:recommender"
+    "test:recommender": "npm --prefix backend run test:recommender",
+    "eval:recommender": "npm --prefix backend run eval:recommender"
   },
   "devDependencies": {
     "concurrently": "^9.0.1"

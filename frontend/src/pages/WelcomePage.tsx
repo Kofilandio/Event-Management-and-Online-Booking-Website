@@ -3,25 +3,41 @@ import { useNavigate } from 'react-router-dom';
 export function WelcomePage() {
   const navigate = useNavigate();
   return (
-    <>
-      <section className="welcome-hero">
-        <h1>Διαχείριση Εκδηλώσεων & Κρατήσεων</h1>
-        <p>Δημιουργήστε εκδηλώσεις, ανακαλύψτε νέες και κάντε εύκολα κρατήσεις.</p>
-        <button onClick={() => navigate('/register')}>Εγγραφή</button>
-        <button onClick={() => navigate('/login')}>Σύνδεση</button>
-      </section>
-      <div className="container">
-        <div className="card">
-          <h2>Καλώς ήρθατε</h2>
-          <p>
-            Μπορείτε να συνδεθείτε ως εγγεγραμμένος χρήστης για να δημιουργήσετε εκδηλώσεις
-            ή να πραγματοποιήσετε κρατήσεις, ή να πλοηγηθείτε ως επισκέπτης.
-          </p>
-          <button className="secondary" onClick={() => navigate('/events')}>
-            Πλοήγηση εκδηλώσεων ως επισκέπτης
-          </button>
+    <section className="welcome-hero">
+      <div className="hero-inner">
+        <div className="deck">Πλατφόρμα εκδηλώσεων & κρατήσεων</div>
+        <h1>
+          Βρες και κλείσε θέσεις σε <em>εκδηλώσεις</em> κοντά σου.
+        </h1>
+        <p className="lede">
+          Οι διοργανωτές δημοσιεύουν εκδηλώσεις, ορίζουν τύπους εισιτηρίων και
+          χωρητικότητα. Οι συμμετέχοντες αναζητούν, κάνουν κράτηση και
+          επικοινωνούν με τους διοργανωτές — όλα σε ένα μέρος.
+        </p>
+        <div className="cta-row">
+          <button onClick={() => navigate('/register')}>Δημιουργία λογαριασμού</button>
+          <button className="secondary" onClick={() => navigate('/login')}>Σύνδεση</button>
+          <button className="secondary" onClick={() => navigate('/events')}>Δες εκδηλώσεις</button>
+        </div>
+
+        <div className="feature-grid">
+          <div className="feature">
+            <div className="ic"></div>
+            <h4>Δημιουργία</h4>
+            <p>Στήσε εκδήλωση σε λίγα βήματα: τύποι εισιτηρίων, χωρητικότητα, χάρτης και φωτογραφίες.</p>
+          </div>
+          <div className="feature">
+            <div className="ic"></div>
+            <h4>Αναζήτηση</h4>
+            <p>Φίλτρα κατά κατηγορία, πόλη, ημερομηνία και τιμή, με προσωπικές προτάσεις.</p>
+          </div>
+          <div className="feature">
+            <div className="ic"></div>
+            <h4>Κράτηση</h4>
+            <p>Γρήγορη κράτηση εισιτηρίου με έλεγχο διαθεσιμότητας και άμεση επικοινωνία.</p>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }
