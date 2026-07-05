@@ -1,6 +1,5 @@
-# Εφαρμογή Διαχείρισης Εκδηλώσεων & Κρατήσεων
+# Event Management & Online Booking Website
 
-Course assignment for **Τεχνολογίες Εφαρμογών Διαδικτύου** (ΣΤ' εξάμηνο, Τμήμα Πληροφορικής & Τηλεπικοινωνιών).
 
 A full-stack web application for managing events and electronic ticket reservations, built per the assignment specification (welcome page → registration with admin approval → role-based dashboards → event CRUD with capacity validation → search & booking → messaging → admin XML/JSON export → BMF recommendations).
 
