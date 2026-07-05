@@ -1,0 +1,168 @@
+// Prisma schema for the event management & booking application
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum UserStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  COMPLETED
+  CANCELLED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id             Int        @id @default(autoincrement())
+  username       String     @unique
+  passwordHash   String
+  firstName      String
+  lastName       String
+  email          String     @unique
+  phone          String
+  address        String
+  city           String
+  country        String
+  latitude       Float?
+  longitude      Float?
+  afm            String
+  role           Role       @default(USER)
+  status         UserStatus @default(PENDING)
+  createdAt      DateTime   @default(now())
+
+  events           Event[]    @relation("OrganizerEvents")
+  bookings         Booking[]
+  sentMessages     Message[]  @relation("Sender")
+  receivedMessages Message[]  @relation("Receiver")
+  eventViews       EventView[]
+}
+
+model Event {
+  id            Int         @id @default(autoincrement())
+  title         String
+  eventType     String
+  venue         String
+  address       String
+  city          String
+  country       String
+  latitude      Float?
+  longitude     Float?
+  startDateTime DateTime
+  endDateTime   DateTime
+  capacity      Int
+  description   String
+  status        EventStatus @default(DRAFT)
+  organizerId   Int
+  organizer     User        @relation("OrganizerEvents", fields: [organizerId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  categories  EventCategory[]
+  photos      EventPhoto[]
+  ticketTypes TicketType[]
+  bookings    Booking[]
+  views       EventView[]
+
+  @@index([status])
+  @@index([startDateTime])
+  @@index([city])
+}
+
+model EventCategory {
+  id      Int    @id @default(autoincrement())
+  eventId Int
+  name    String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([name])
+  @@unique([eventId, name])
+}
+
+model EventPhoto {
+  id       Int    @id @default(autoincrement())
+  eventId  Int
+  filename String
+  event    Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model TicketType {
+  id        Int    @id @default(autoincrement())
+  eventId   Int
+  name      String
+  price     Float
+  quantity  Int
+  available Int
+  event     Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  bookings  Booking[]
+}
+
+model Booking {
+  id              Int           @id @default(autoincrement())
+  eventId         Int
+  attendeeId      Int
+  ticketTypeId    Int
+  numberOfTickets Int
+  totalCost       Float
+  status          BookingStatus @default(CONFIRMED)
+  bookedAt        DateTime      @default(now())
+
+  event      Event      @relation(fields: [eventId], references: [id])
+  attendee   User       @relation(fields: [attendeeId], references: [id])
+  ticketType TicketType @relation(fields: [ticketTypeId], references: [id])
+
+  @@index([attendeeId])
+  @@index([eventId])
+}
+
+model Message {
+  id              Int      @id @default(autoincrement())
+  senderId        Int
+  receiverId      Int
+  subject         String
+  body            String
+  sentAt          DateTime @default(now())
+  readAt          DateTime?
+  deletedBySender Boolean  @default(false)
+  deletedByReceiver Boolean @default(false)
+  relatedEventId  Int?
+
+  sender   User @relation("Sender", fields: [senderId], references: [id])
+  receiver User @relation("Receiver", fields: [receiverId], references: [id])
+
+  @@index([receiverId, deletedByReceiver, readAt])
+  @@index([senderId, deletedBySender])
+}
+
+model EventView {
+  id       Int      @id @default(autoincrement())
+  userId   Int
+  eventId  Int
+  viewedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@index([userId, eventId])
+}

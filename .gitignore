@@ -1,0 +1,31 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+*.log
+.DS_Store
+coverage/
+.vite/
+uploads/
+*.pem
+*.key
+*.crt
+.idea/
+.vscode/
+prisma/migrations/dev.db*
+
+# Large recommendation dataset (provided on e-class — do not commit, ~1.5GB).
+# Keep ONLY the small event_interest.csv (~632 KB) so `npm run eval:recommender`
+# runs out of the box; the giant CSVs (events/users/attendees/friends) stay out.
+rel_event_csvs/*
+!rel_event_csvs/event_interest.csv
+
+# Local frontend backup snapshot
+frontend-backup/
+
+# Trained recommender model — regenerated at runtime / via `npm run train`
+recommender-model.json
+
+# PDF files (assignment spec, generated report)
+*.pdf

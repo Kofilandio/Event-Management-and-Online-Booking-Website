@@ -1,0 +1,27 @@
+{
+  "name": "tedi",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "setup": "npm run setup:env && npm run setup:install && npm run db:up && npm run db:wait && npm run db:migrate && npm run db:seed",
+    "setup:env": "node scripts/setup-env.mjs",
+    "setup:install": "npm --prefix backend install && npm --prefix frontend install",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:wait": "node scripts/wait-for-db.mjs",
+    "db:migrate": "npm --prefix backend run prisma:migrate -- --name init",
+    "db:seed": "npm --prefix backend run seed",
+    "db:reset": "npm --prefix backend run prisma:reset",
+    "dev": "concurrently -k -n backend,frontend -c blue,magenta \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "start": "npm run db:up && npm run db:wait && npm run dev",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "train": "npm --prefix backend run train",
+    "test:recommender": "npm --prefix backend run test:recommender",
+    "eval:recommender": "npm --prefix backend run eval:recommender"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
