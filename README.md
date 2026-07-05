@@ -201,7 +201,7 @@ users a genuinely interesting event lands in the top-10.
 └── README.md
 ```
 
-## Notes on Assignment Compliance
+## Extra Notes
 
 - **DTD-compliant XML export:** `backend/src/services/export.ts` emits the structure defined in §7 of the assignment, including the `<GeoLocation Latitude= Longitude=/>` attribute element, `Category+`, optional `Media`, etc.
 - **Capacity validation:** enforced in both the create and update event paths (`backend/src/routes/events.ts:38`), and a non-blocking client-side hint shows the running total in the editor.
