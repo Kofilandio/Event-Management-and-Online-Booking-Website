@@ -1,0 +1,1 @@
+{"config":{"factors":1,"epochs":0,"learningRate":0,"regularization":0,"seed":0,"minRating":0,"maxRating":5},"globalMean":0,"userIds":[],"itemIds":[2,1],"userBias":[],"itemBias":[0,0],"userFactors":[],"itemFactors":[[0],[0]],"rmseHistory":[]}
